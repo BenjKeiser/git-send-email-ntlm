@@ -69,7 +69,7 @@ def generate_smtp_headers(
     fq_from_address,
     to_address,
     subject,
-    parsed_outpu
+    parsed_output
     ):
 
     global APPLICATION

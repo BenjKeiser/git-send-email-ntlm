@@ -8,7 +8,8 @@ Supported parameters:
 
 All unknown parameters are passed on to git-format-patch.
 
-I copy my script to /usr/lib/git-core (without the .py ending).
+I copy my script to /usr/lib/git-core (without the .py ending) and make sure it's
+executable.
 
 ```bash
 sudo cp git-send-email-ntlm.py /usr/lib/git-core/git-send-email-ntlm
