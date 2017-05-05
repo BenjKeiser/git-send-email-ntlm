@@ -2,7 +2,7 @@
 A replacement for git-send-email that knows NTLM.
 
 
-== Installation and usage ==
+## Installation and usage
 
 I copy my script to /usr/lib/git-core (without the .py ending) and make sure it's
 executable.
@@ -17,7 +17,7 @@ You can then just run it with "git":
 git send-email-ntlm --to=foo@bar.baz -M -1
 ```
 
-== Supported parameters: ==
+## Supported parameters
 
 * --to
 * --subject-prefix
@@ -25,7 +25,7 @@ git send-email-ntlm --to=foo@bar.baz -M -1
 All unknown parameters are passed on to git-format-patch.
 
 
-== Configuration ==
+## Configuration
 
 git-send-email-ntlm requires the following parameters from your ~/.gitconfig:
 ```ini
