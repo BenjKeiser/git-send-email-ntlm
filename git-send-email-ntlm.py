@@ -6,10 +6,10 @@ import subprocess
 import shutil
 import argparse
 import sys
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 from os.path import expanduser
 from os import linesep, getpid
-import StringIO
+import io
 from time import gmtime, strftime, time
 import getpass
 import smtplib
@@ -27,7 +27,7 @@ def create_patches(output_dir, format_patch_args=[]):
         all_args,
         stderr=subprocess.STDOUT
     )
-    print out_files.strip()
+    print(out_files.strip())
     return out_files.splitlines()
 
 def parse_patch_file(patch_file, email_address, subject_replacement="PATCH"):
@@ -45,7 +45,7 @@ def parse_patch_file(patch_file, email_address, subject_replacement="PATCH"):
         elif parsing_headers and line.startswith("From: "):
             address = line[6:].strip()
             cc.add(address)
-            print "(mbox) Adding cc: %s from line '%s'"%(address, line.strip())
+            print("(mbox) Adding cc: %s from line '%s'"%(address, line.strip()))
         elif parsing_headers and line.startswith("Subject: "):
             subject = line[9:].replace("PATCH", subject_replacement, 1).strip()
 
@@ -53,7 +53,7 @@ def parse_patch_file(patch_file, email_address, subject_replacement="PATCH"):
             if line.startswith("Signed-off-by: "):
                 address = line[15:].strip()
                 cc.add(address)
-                print "(body) Adding cc: %s from line '%s'"%(address, line.strip())
+                print("(body) Adding cc: %s from line '%s'"%(address, line.strip()))
             message += line
 
     parsed_output = {
@@ -157,7 +157,7 @@ if __name__ == "__main__":
     config_text = linesep.join(
         [line.strip() for line in open(expanduser("~/.gitconfig"))]
     )
-    config_fp = StringIO.StringIO(config_text)
+    config_fp = io.StringIO(config_text)
     config = ConfigParser()
     config.readfp(config_fp)
     email_address = config.get("user", "email")
@@ -189,14 +189,14 @@ if __name__ == "__main__":
             parsed_output["subject"],
             parsed_output
         )
-        print ""
-        print headers
+        print("")
+        print(headers)
         full_message = "%s\n%s"%(headers, parsed_output["message"])
         while True:
             if send_all_messages:
                 user_input = "a"
             else:
-                user_input = raw_input(
+                user_input = input(
                     "Send this email? ([y]es|[n]o|[q]uit|[a]ll): "
                 ).lower()
             if user_input not in "ynqa":
@@ -222,12 +222,12 @@ if __name__ == "__main__":
                     connection.ehlo()
                     ntlm_authenticate(connection, smtp_user, smtp_password)
                     connection.sendmail(fq_email_address, [args.to], full_message)
-                    print "Email sent."
-                    print ""
-                except smtplib.SMTPException, e:
+                    print("Email sent.")
+                    print("")
+                except smtplib.SMTPException as e:
                     code = e.args[0]
                     message = e.args[1]
-                    print "SMTP Error:", code, message
+                    print("SMTP Error:", code, message)
                     sys.exit(1)
             break
 
