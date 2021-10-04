@@ -108,7 +108,7 @@ X-Mailer: %s %s
 def ntlm_authenticate(smtp, username, password):
     code, response = smtp.docmd(
         "AUTH",
-        "NTLM " + ntlm.create_NTLM_NEGOTIATE_MESSAGE(username)
+        "NTLM " + ntlm.create_NTLM_NEGOTIATE_MESSAGE(username).decode("utf-8")
     )
     if code != 334:
         raise smtplib.SMTPException(
@@ -124,7 +124,7 @@ def ntlm_authenticate(smtp, username, password):
             user_parts[0],
             password,
             flags
-        )
+        ).decode("utf-8")
     )
     if code != 235:
         raise smtplib.SMTPException(code, response)
