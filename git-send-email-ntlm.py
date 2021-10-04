@@ -13,7 +13,7 @@ import io
 from time import gmtime, strftime, time
 import getpass
 import smtplib
-from ntlm import ntlm
+from ntlm3 import ntlm
 
 APPLICATION = "git-send-email-ntlm"
 VERSION = "0.0.1"
